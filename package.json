@@ -12,6 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "concurrently": "^8.2.2",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "jquery": "^3.7.1",
+    "react-router-dom": "^6.21.1"
   }
 }
