@@ -1,50 +1,13 @@
-import React from 'react';
-import '../App.css';
-import {useState} from 'react';
-import { Link } from "react-router-dom";
-
-const Home = () => {
-    const [responseToPost, setResponseToPost] = useState('');
-    const [post, setPost] = useState('');
-
-    const onClickButton =async(e) =>{
-    e.preventDefault();
-    const response = await fetch('/api/db',{
-        method: 'GET',
-    })
-    const body = await response.text();
-    setResponseToPost(body);
-    }
-
-    const onClickDeleteButton = async (e) => {
-    e.preventDefault();
-    const response = await fetch('/api/delete', {
-        method: 'GET',
-    });
-    const body = await response.text();
-
-    setResponseToPost(body);
-};
-
-    const onClickInsertButton = async (e) => {
-    e.preventDefault();
-    const response = await fetch('/api/insert', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ post }),
-    });
-
-    const body = await response.text();
-
-    setResponseToPost(body);
-};
-
+const MyMain = () => {
     return (
-        <div className="App">
+        <div className="content">
+        <header>
+            <h1>E1정보기술 BS팀 정보 블로그</h1>
+        </header>
+        <h3>BS팀 정보 블로그에 오신것을 환영합니다.<br />
+        해당 사이트는 BS팀원들의 개인 역량 상승을 도모하기 위한 페이지로써 IT 기술 및 팀원들이 개인학습을 하며 얻은 지식을 집대성한 사이트입니다.</h3>
         </div>
     );
-}
-
-export default Home;
+  }
+  
+  export default MyMain;

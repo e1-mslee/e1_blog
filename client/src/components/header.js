@@ -3,7 +3,7 @@ const MyHeader = () => {
         <div>
             <header id='header'>
                 <div id='logo'>
-                    <img src={''} alt='logo'></img>
+                    <img src='/e1.PNG'></img>
                 </div>
                 <div className='buttonGroup'>
                     <button className='button small'>글쓰기</button>
