@@ -42,7 +42,7 @@ const EditorComponent = () => {
       <Editor
         initialValue=" "
         previewStyle="none"
-        height="600px"
+        height="550px"
         initialEditType="markdown"
         language="ko-KR"
         useCommandShortcut={false}

@@ -1,0 +1,16 @@
+.scroll-sync {
+    margin: 0 !important;
+}
+
+button.toastui-editor-toolbar-icons{
+    box-shadow: inset 0 0 0 0 !important;
+}
+
+.toastui-editor-toolbar-group {
+    vertical-align: middle !important;
+}
+
+.toastui-editor-toolbar-icons.image {
+    margin: 0.5em 0 0 0 !important;
+    width: 32px !important;
+}

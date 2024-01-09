@@ -5,12 +5,12 @@ import Col from 'react-bootstrap/Col';
 import {useState} from 'react';
 import { Link } from "react-router-dom";
 import EditorComponent from '../components/editor';
-import '../main.css';
+import "../editor.css"
 
 const Edit = () => {
 
     return (
-        <div>
+        <div className='row'>
             <Row>
                 <Col md={2}>
                     <Form.Select className="m-2">
@@ -25,7 +25,7 @@ const Edit = () => {
                     <Form.Control type="text" className='m-2' id="subject" placeholder="제목을 입력하세요." />
                 </Col>
             </Row>
-            <Row style={{margin : '10px'}}>
+            <Row>
                 <EditorComponent>
                 </EditorComponent>
             </Row>

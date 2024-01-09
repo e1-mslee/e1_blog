@@ -8,6 +8,7 @@ import MyHeader from './components/header';
 import { initializeSidebarLock } from "./js/scroll";
 import Home from './pages/Home';
 import './main.css';
+import './editor.css';
 
 function App() {
   useEffect(() => {
@@ -44,7 +45,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/edit" element={<Edit />} />
-                <Route path="/viewer" element={<Viewer></Viewer>} />
+                <Route path="/viewer" element={<Viewer />} />
             </Routes>
           </Fragment>
           </section>
