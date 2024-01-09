@@ -55,6 +55,28 @@ app.post('/api/insert', async (req, res) => {
   }
 });
 
+app.post('/api/post/insert', async(req,res) => {
+  try{
+    const sql = `INSERT INTO post ( subject
+                                  , content
+                                  , category_id
+                                  , create_date
+                                  , update_date )
+                            VALUES ( '${req.body.subject}'
+                                  ,  '${req.body.content}'
+                                  ,  '${req.body.category_id}'
+                                  , now()
+                                  , now() )`;
+
+    console.log(sql);
+    await queryPostgreSQL(sql);
+    res.status(200).send('SUCCESS');
+  } catch(err){
+    console.error('Error inserting post data', err);
+    res.status(500).send('저장에 실패했습니다.' + err);
+  }
+})
+
 // 서버 종료 시 PostgreSQL 연결 종료
 process.on('exit', () => {
   disconnectFromPostgreSQL()

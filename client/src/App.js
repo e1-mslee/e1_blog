@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect ,useState } from "react";
 import { Link, Route, Router, Routes} from "react-router-dom";
-import Edit from './pages/Editor';
+import Edit from './components/editor';
 import Viewer from './pages/Viewer';
 import SidebarComponent from "./components/sidebar";
 import MyHeader from './components/header';
