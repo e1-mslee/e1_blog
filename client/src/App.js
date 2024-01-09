@@ -3,7 +3,6 @@ import { Link, Route, Router, Routes} from "react-router-dom";
 import Edit from './pages/Editor';
 import Viewer from './pages/Viewer';
 import SidebarComponent from "./components/sidebar";
-// import menu from "./js/toggle";
 import MyHeader from './components/header';
 //import sidebar from "./js/sidebar";
 import { initializeSidebarLock } from "./js/scroll";
@@ -47,13 +46,15 @@ function App() {
                 <Route path="/edit" element={<Edit />} />
                 <Route path="/viewer" element={<Viewer></Viewer>} />
             </Routes>
+            <div>
+              <SidebarComponent/>
+            </div>
           </Fragment>
           </section>
         </div>
       </div>
-      <SidebarComponent />
-    </div>
+    </div>    
   );
-}
+};
 
 export default App;
