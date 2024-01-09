@@ -46,13 +46,11 @@ function App() {
                 <Route path="/edit" element={<Edit />} />
                 <Route path="/viewer" element={<Viewer></Viewer>} />
             </Routes>
-            <div>
-              <SidebarComponent/>
-            </div>
           </Fragment>
           </section>
         </div>
       </div>
+      <SidebarComponent/>
     </div>    
   );
 };
