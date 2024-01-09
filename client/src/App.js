@@ -1,9 +1,9 @@
 import React, { Fragment, useEffect ,useState } from "react";
 import { Link, Route, Router, Routes} from "react-router-dom";
 import Edit from './pages/Editor';
-import Viewer from './components/viewer';
+import Viewer from './pages/Viewer';
 import SidebarComponent from "./components/sidebar";
-import menu from "./js/toggle";
+// import menu from "./js/toggle";
 import MyHeader from './components/header';
 //import sidebar from "./js/sidebar";
 import { initializeSidebarLock } from "./js/scroll";

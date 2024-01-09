@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const MyHeader = () => {
     return (
         <div>
@@ -6,7 +8,7 @@ const MyHeader = () => {
                     <img src='/e1.PNG'></img>
                 </div>
                 <div className='buttonGroup'>
-                    <button className='button small'>글쓰기</button>
+                    <Link to="/edit"><button className='button small'>글쓰기</button></Link>
                 </div>
             </header>
         </div>
