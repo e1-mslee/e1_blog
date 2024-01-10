@@ -47,14 +47,31 @@ const EditorComponent = () => {
   });
 
   const handleSave = async(e) => {
-    e.preventDefault();
     let content = editorRef.current.getInstance().getMarkdown();
+    
+    if(category == null || category == ''){
+      alert('대분류를 선택하세요.');
+      return;
+    }
+    if(secCategory == null || secCategory == ''){
+      alert('소분류를 선택하세요.');
+      return;
+    }
+    if(title == null || title == ''){
+      alert('제목을 입력하세요.');
+      return;
+    }
+    if(content == null || content == ''){
+      alert('내용을 입력하세요.');
+      return;
+    }
 
     let sendData = {
-      category_id : category
+      category_id : secCategory
     , subject : title
     , content: content
     }
+
 
     await fetch("/api/post/insert", {
       method: "POST",
@@ -86,7 +103,7 @@ const EditorComponent = () => {
     <div className='row'>
     <Row>
         <Col md={2}>
-            <Form.Select className="m-2" value={category} onChange={categoryChange}>
+            <Form.Select  value={category} onChange={categoryChange}>
               <option value="">선택</option>
               {cateOptions.map((option,i) => (
                 <option value={option.ca_id}>{option.ca_nm}</option>
@@ -94,7 +111,7 @@ const EditorComponent = () => {
             </Form.Select>
         </Col>
         <Col md={2}>
-            <Form.Select className="m-2" value={secCategory} onChange={secCategoryChange}>
+            <Form.Select value={secCategory} onChange={secCategoryChange}>
               <option value="">선택</option>
               {secCateOptions.map((option,i) => (
                 <option value={option.ca_id}>{option.ca_nm}</option>
@@ -102,7 +119,7 @@ const EditorComponent = () => {
             </Form.Select>
         </Col>
         <Col md={6}>
-            <Form.Control type="text" className='m-2' id="subject" placeholder="제목을 입력하세요." value={title} onChange={titleChange}/>
+            <Form.Control type="text" className='mb-2' id="subject" placeholder="제목을 입력하세요." value={title} onChange={titleChange}/>
         </Col>
     </Row>
     <Row>
