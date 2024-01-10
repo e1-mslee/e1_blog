@@ -1,24 +1,16 @@
 import React, { Fragment, useEffect ,useState } from "react";
 import { Link, Route, Router, Routes} from "react-router-dom";
 import Edit from './components/editor';
-import Viewer from './pages/Viewer';
+import Viewer from './components/viewer';
 import SidebarComponent from "./components/sidebar";
 import MyHeader from './components/header';
 //import sidebar from "./js/sidebar";
 import Home from './pages/Home';
 import './main.css';
 import './editor.css';
+import PostController from "./components/postController";
 
 function App() {
-
-  const [sectionContent, setSectionContent] = useState("기본 섹션 내용");
-
-  // 컴포넌트 값이 변경될 때 호출되는 함수
-  const handleComponentChange = () => {
-    // 여기서 컴포넌트를를 업데이트하거나, API 호출 등의 작업을 수행
-    const newContent ="바뀐 섹션 내용";
-    setSectionContent(newContent);
-  }
 
   return (
     <div id="wrapper">
@@ -34,6 +26,7 @@ function App() {
             </Routes>
           </Fragment>
           </section>
+          <PostController></PostController>
         </div>
       </div>
       <SidebarComponent/>

@@ -55,6 +55,18 @@ app.post('/api/insert', async (req, res) => {
   }
 });
 
+app.get('/api/post', async (req, res) => {
+  try {
+    const sql = 'SELECT * FROM post where post_id=6';
+    const rows = await queryPostgreSQL(sql);
+    res.send(rows[0]);
+  } catch (err) {
+    console.error('Error querying PostgreSQL:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
 app.post('/api/category/get', async(req, res) => {
   try{
     const sql =  `SELECT ca_id, ca_nm
