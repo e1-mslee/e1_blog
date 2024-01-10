@@ -5,26 +5,11 @@ import Viewer from './pages/Viewer';
 import SidebarComponent from "./components/sidebar";
 import MyHeader from './components/header';
 //import sidebar from "./js/sidebar";
-import { initializeSidebarLock } from "./js/scroll";
 import Home from './pages/Home';
 import './main.css';
 import './editor.css';
 
 function App() {
-  useEffect(() => {
-    const opener = document.querySelector('.opener');
-
-    const handleClick = (event) => {
-      event.preventDefault();
-    };
-
-    opener.addEventListener('click',handleClick);
-
-    // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
-    return () => {
-      opener.removeEventListener('click', handleClick);
-    };
-  },[]);
 
   const [sectionContent, setSectionContent] = useState("기본 섹션 내용");
 

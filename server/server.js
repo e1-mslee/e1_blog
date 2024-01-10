@@ -90,6 +90,17 @@ app.post('/api/post/insert', async(req,res) => {
   }
 })
 
+app.post('/api/categoryList', async (req, res) => {
+  try {
+    const sql = `SELECT ca_id, ca_nm, supi_id FROM category`;
+    const rows = await queryPostgreSQL(sql);     
+    res.send(rows);       
+  } catch (err) {
+    console.error('에러가 발생했습니다.: ',err);
+    res.status(500).send('에러 발생');
+  }
+});
+
 // 서버 종료 시 PostgreSQL 연결 종료
 process.on('exit', () => {
   disconnectFromPostgreSQL()

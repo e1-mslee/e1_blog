@@ -2287,3 +2287,25 @@ button,
   width: 100%;
   height: 100%;
 }
+
+#menu ul span.opener {
+  position: relative;
+}
+
+#menu ul span.opener:before {
+  content: "";
+  background-image: url(./img/arrow-down.png) !important;
+  background-size: cover;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 50%;
+  left: 90%;
+  transform: translate(0%, -60%);
+  transition: max-height 0.1s ease;
+}
+
+#menu ul span.opener.active:before {
+  top: calc(50% - 12px);
+}
