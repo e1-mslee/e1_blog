@@ -55,6 +55,19 @@ app.post('/api/insert', async (req, res) => {
   }
 });
 
+app.post('/api/category/get', async(req, res) => {
+  try{
+    const sql =  `SELECT ca_id, ca_nm
+                    FROM category
+                    WHERE supi_id = ${req.body.supi_id}`
+    let rows = await queryPostgreSQL(sql);
+    res.send(rows);
+  }catch(err){
+    console.error('카테고리 목록 조회에 실패했습니다.');
+    res.status(500).send('카테고리 조회에 실패했습니다.');
+  }
+})
+
 app.post('/api/post/insert', async(req,res) => {
   try{
     const sql = `INSERT INTO post ( subject
