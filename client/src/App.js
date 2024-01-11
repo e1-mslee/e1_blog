@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect ,useState } from "react";
-import { Link, Route, Router, Routes} from "react-router-dom";
+import { Link, Route, Router, Routes, useLocation} from "react-router-dom";
 import Edit from './components/editor';
 import Viewer from './components/viewer';
 import SidebarComponent from "./components/sidebar";
@@ -11,6 +11,13 @@ import './editor.css';
 import PostController from "./components/postController";
 
 function App() {
+  const [controller, setController] = useState(true);
+  const location = useLocation();
+
+  const flag = () => {
+    const currentPath = location.pathname;
+    return controller &&  currentPath !== '/edit';
+  }
 
   return (
     <div id="wrapper">
@@ -26,8 +33,8 @@ function App() {
             </Routes>
           </Fragment>
           </section>
-          <PostController></PostController>
-        </div>
+          {flag() && <PostController/>}
+          </div>
       </div>
       <SidebarComponent/>
     </div>    
