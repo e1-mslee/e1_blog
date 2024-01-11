@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import MyMain from '../pages/Home';
 import { event } from 'jquery';
+import { Link } from "react-router-dom";
 
 //자식 li 요소 클릭 시 html 렌더링 이벤트
 const changePage = (item) => {
@@ -8,7 +9,7 @@ const changePage = (item) => {
 }
 
 //자식 li 요소 렌더링 함수
-const OpenerComponent = ({ label, subitems }) => {
+const OpenerComponent = ({ label, subitems, updateC }) => {
     const [isActive, setIsActive] = useState(false);
   
     const toggleOpener = () => {
@@ -20,14 +21,14 @@ const OpenerComponent = ({ label, subitems }) => {
         <span className={`opener ${isActive ? 'active' : ''}`} onClick={toggleOpener}>{label}</span>
         <ul style={{ display: isActive ? 'block' : 'none' }}>
           {subitems.map((item, index) => (
-            <li key={index}><a href="#" id='' onClick={() => changePage(item)}>{item}</a></li>
+            <li key={index}><Link to='/viewer' onClick={()=>updateC(item)}>{item}</Link></li>
           ))}
         </ul>
       </li>
     );
   };
    
-const SidebarComponent = () => {
+const SidebarComponent = ({updateCategory}) => {
     const [post, setPost] = useState('');
     const [categories, setCategories] = useState([]); // 새로운 상태 추가
 
@@ -75,10 +76,10 @@ const SidebarComponent = () => {
               <h2>Category</h2>
             </header>
             <ul>
-              <li><a href={MyMain}>Main Page</a></li>
+              <li><Link to='/'>Main Page</Link></li>
               {resultArray.map((data) => {
               return (
-                <OpenerComponent key={data.ca_id} label={data.ca_nm} subitems={data.subitems} />
+                <OpenerComponent key={data.ca_id} label={data.ca_nm} subitems={data.subitems} updateC={(value)=>updateCategory(value)} />
               );
             })}
             </ul>

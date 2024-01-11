@@ -57,7 +57,18 @@ app.post('/api/insert', async (req, res) => {
 
 app.get('/api/post', async (req, res) => {
   try {
-    const sql = 'SELECT * FROM post where post_id=6';
+    const sql = `SELECT POST_ID
+                       ,SUBJECT
+                       ,CG.CA_NM
+                       ,CREATE_DATE
+                       ,UPDATE_DATE 
+                       ,CONTENT
+                  FROM POST P,
+                       CATEGORY CG
+                 WHERE P.CATEGORY_ID=CG.CA_ID 
+                   AND CA_NM='${req.query.category}'
+              ORDER BY CREATE_DATE
+                 LIMIT 1;`;
     const rows = await queryPostgreSQL(sql);
     res.send(rows[0]);
   } catch (err) {
