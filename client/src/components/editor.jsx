@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
@@ -20,8 +20,10 @@ const EditorComponent = () => {
 
   const editorRef = useRef(null);
 
+  const navi = useNavigate();
+
   const getComboData = async(supiId) => {
-      if(supiId == ""){
+      if(supiId === "" || supiId === null){
         setSecOptions([]);
         return;
       }
@@ -38,30 +40,30 @@ const EditorComponent = () => {
 
       const data = await respons.json();
       cateOptions = data;
-      if(supiId == 1) setOptions(cateOptions);
+      if(supiId === 1) setOptions(cateOptions);
       else setSecOptions(cateOptions);
   }
 
   useEffect(() => {
     getComboData(1);
-  });
+  }, []);
 
   const handleSave = async(e) => {
     let content = editorRef.current.getInstance().getMarkdown();
     
-    if(category == null || category == ''){
+    if(category === null || category === ''){
       alert('대분류를 선택하세요.');
       return;
     }
-    if(secCategory == null || secCategory == ''){
+    if(secCategory === null || secCategory === ''){
       alert('소분류를 선택하세요.');
       return;
     }
-    if(title == null || title == ''){
+    if(title === null || title === ''){
       alert('제목을 입력하세요.');
       return;
     }
-    if(content == null || content == ''){
+    if(content === null || content === ''){
       alert('내용을 입력하세요.');
       return;
     }
@@ -80,6 +82,9 @@ const EditorComponent = () => {
       },
       body: JSON.stringify(sendData),
     })
+
+    navi("/viewer");
+
   }
 
   const categoryChange = (e) => {
@@ -97,6 +102,36 @@ const EditorComponent = () => {
   const titleChange = (e) => {
     let value = e.target.value;
     setTitle(value);
+  }
+
+  const onUploadImage = (blob, cb) => {
+    try{
+      const imageData = new FormData();
+      const file = new File([blob], encodeURI(blob.name),{
+        type: blob.type,
+      })
+
+      const clientId = "38f2792ef59359a";
+
+      imageData.append("image", file);
+
+      fetch("https://api.imgur.com/3/image", {
+        method: "POST",
+        headers: {
+          Authorization: `Client-ID ${clientId}`,
+          Accept: "application/json",
+        },
+        body: imageData,
+      }).then((res) => {
+        return res.json();
+      }).then((json) => {
+        console.log(json);
+        let url = json.data.link;
+        cb(url);
+      })
+    } catch(err){
+        console.error(err);
+    }
   }
 
   return (
@@ -133,13 +168,16 @@ const EditorComponent = () => {
             useCommandShortcut={false}
             ref={editorRef}
             plugins={[colorSyntax]}
+            hooks={{
+                addImageBlobHook: onUploadImage
+            }}
             />
     </Row>
     <Row>
-    <Col style={{textAlign: "center", marginTop: '1em'}}>
-        <Link to="/viewer"><a href="#" className="button primary" onClick={handleSave}>등록</a></Link>
-    </Col>
-</Row>
+      <Col style={{textAlign: "center", marginTop: '1em'}}>
+          <Link to="#" onClick={handleSave}><span className="button primary">등록</span></Link>
+      </Col>
+    </Row>
 </div>
   );
 }
