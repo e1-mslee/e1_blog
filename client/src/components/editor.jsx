@@ -30,7 +30,7 @@ const EditorComponent = () => {
       let param = {
         supi_id : supiId
       }
-      const respons = await fetch("/api/category/get", {
+      const response = await fetch("/api/category/get", {
         method: 'POST',
         headers:{
           'Content-Type' : 'application/json',
@@ -38,7 +38,7 @@ const EditorComponent = () => {
         body: JSON.stringify(param),
       })
 
-      const data = await respons.json();
+      const data = await response.json();
       cateOptions = data;
       if(supiId === 1) setOptions(cateOptions);
       else setSecOptions(cateOptions);

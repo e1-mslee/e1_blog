@@ -2,6 +2,7 @@ import React, { Fragment, useEffect ,useState } from "react";
 import { Link, Route, Router, Routes, useLocation} from "react-router-dom";
 import Edit from './components/editor';
 import Viewer from './components/viewer';
+import categoryAdmin from './components/cateAdmin';
 import SidebarComponent from "./components/sidebar";
 import MyHeader from './components/header';
 //import sidebar from "./js/sidebar";
@@ -9,6 +10,7 @@ import Home from './pages/Home';
 import './main.css';
 import './editor.css';
 import PostController from "./components/postController";
+import CateAdmin from "./components/cateAdmin";
 
 function App() {
   const [controller, setController] = useState(true);
@@ -16,7 +18,7 @@ function App() {
 
   const flag = () => {
     const currentPath = location.pathname;
-    return controller &&  currentPath !== '/edit';
+    return controller &&  currentPath !== '/edit' && currentPath !== '/admin';
   }
 
   return (
@@ -30,6 +32,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/edit" element={<Edit />} />
                 <Route path="/viewer" element={<Viewer />} />
+                <Route path="/admin" element={<CateAdmin />} />
             </Routes>
           </Fragment>
           </section>
