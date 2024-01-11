@@ -13,6 +13,7 @@ import PostController from "./components/postController";
 function App() {
   const [controller, setController] = useState(true);
   const location = useLocation();
+  const [categoryName, setCategoryName] = useState(true);
 
   const flag = () => {
     const currentPath = location.pathname;
@@ -29,14 +30,14 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/edit" element={<Edit />} />
-                <Route path="/viewer" element={<Viewer />} />
+                <Route path="/viewer" element={<Viewer sendCategory={categoryName} />} />
             </Routes>
           </Fragment>
           </section>
           {flag() && <PostController/>}
           </div>
       </div>
-      <SidebarComponent/>
+      <SidebarComponent updateCategory={(value) =>setCategoryName(value)}/>
     </div>    
   );
 };
