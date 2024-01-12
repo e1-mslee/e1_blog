@@ -32,12 +32,8 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/edit" element={<Edit />} />
-<<<<<<< HEAD
-                <Route path="/viewer" element={<Viewer />} />
                 <Route path="/admin" element={<CateAdmin />} />
-=======
                 <Route path="/viewer" element={<Viewer sendCategory={categoryName} />} />
->>>>>>> 17d292774cf22ed53da329ebef9c123aca63c96b
             </Routes>
           </Fragment>
           </section>

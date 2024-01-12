@@ -143,7 +143,8 @@ app.post('/api/categoryDetailList', async (req, res) => {
                       , b.ca_nm supi_nm
                       FROM category a
                       LEFT JOIN category b
-                        ON a.supi_id = b.ca_id`;
+                        ON a.supi_id = b.ca_id
+                      ORDER BY a.ca_id`;
     const rows = await queryPostgreSQL(sql);     
     res.send(rows);       
   } catch (err) {
@@ -208,8 +209,31 @@ app.post('/api/categoryDelete', async(req,res) => {
   }
 })
 
+app.post('/api/nodeCnt', async(req,res) => {
+  try{
+    const sql = `SELECT count(*) cnt FROM category
+                  WHERE supi_id = ${req.body.ca_id}`;
+    console.log(sql);
+    const rows = await queryPostgreSQL(sql);     
+    res.send(rows);
+  } catch(err){
+    console.error('Error inserting post data', err);
+    res.status(500).send('조회에 실패했습니다.' + err);
+  }
+})
 
-
+app.post('/api/postCnt', async(req,res) => {
+  try{
+    const sql = `SELECT count(*) cnt FROM post
+                  WHERE category_id = ${req.body.ca_id}`;
+    console.log(sql);
+    const rows = await queryPostgreSQL(sql);     
+    res.send(rows);
+  } catch(err){
+    console.error('Error inserting post data', err);
+    res.status(500).send('조회에 실패했습니다.' + err);
+  }
+})
 
 // 서버 종료 시 PostgreSQL 연결 종료
 process.on('exit', () => {
