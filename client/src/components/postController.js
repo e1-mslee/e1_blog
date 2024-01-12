@@ -47,7 +47,7 @@ const PostController = (props) => {
 
   return (
     <div id='postController' style={{marginTop: '40px'}}>
-      <p id='postControllerTitle'>{props.sendCategory}의 관련글</p>
+      <p style={{fontFamily: 'Font Awesome 5 Free'}} id='postControllerTitle'>{props.sendCategory}의 관련글</p>
       <table id='postList'>
         <tbody>
           {getCurrentPosts().map((post) => {
