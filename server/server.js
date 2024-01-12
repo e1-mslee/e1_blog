@@ -59,7 +59,8 @@ app.get('/api/post', async (req, res) => {
   try {
     const sql = `SELECT POST_ID
                        ,SUBJECT
-                       ,CREATE_DATE
+                       ,CG.CA_NM
+                       ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS CREATE_DATE
                        ,UPDATE_DATE 
                        ,CONTENT
                        ,CASE WHEN SUPI_ID > 1 THEN

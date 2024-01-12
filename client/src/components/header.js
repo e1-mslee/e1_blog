@@ -8,7 +8,7 @@ const MyHeader = () => {
                     <img src='/e1.PNG'></img>
                 </div>
                 <div className='buttonGroup'>
-                    <Link to="/edit"><button className='button small'>글쓰기</button></Link>
+                    <Link to="/edit" style={{borderBottom: 'none'}}><button className='button small'>글쓰기</button></Link>
                 </div>
             </header>
         </div>

@@ -19,7 +19,7 @@ function App() {
 
   const flag = () => {
     const currentPath = location.pathname;
-    return controller &&  currentPath !== '/edit' && currentPath !== '/admin';
+    return controller &&  currentPath !== '/edit' && currentPath !== '/admin' && currentPath !== '/';
   }
 
   return (
@@ -27,15 +27,15 @@ function App() {
       <div id="main">
         <div className='inner'>
           <MyHeader />
-          <section id="banner">
-            <Fragment>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/edit" element={<Edit />} />
-                <Route path="/admin" element={<CateAdmin />} />
-                <Route path="/viewer" element={<Viewer sendCategory={categoryName} />} />
-            </Routes>
-          </Fragment>
+          <section id="banner" style={{backgroundColor: '#f5f6f7'}}>
+            <div style={{width: '100%'}}>
+              <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/edit" element={<Edit />} />
+                  <Route path="/admin" element={<CateAdmin />} />
+                  <Route path="/viewer" element={<Viewer sendCategory={categoryName} />} />
+              </Routes>
+            </div>
           </section>
           {flag() && <PostController sendCategory={categoryName}/>}
           </div>

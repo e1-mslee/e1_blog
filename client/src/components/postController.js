@@ -45,7 +45,7 @@ const PostController = (props) => {
   }, [props.sendCategory]);
 
   return (
-    <div id='postController'>
+    <div id='postController' style={{marginTop: '40px'}}>
       <p id='postControllerTitle'>{props.sendCategory}의 관련글</p>
       <table id='postList'>
         <tbody>

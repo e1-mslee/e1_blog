@@ -3,6 +3,7 @@ import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PostView from './toastViewer';
+import label from '../img/label.png';
 
 export default function ContentsViewer(props) {
     
@@ -45,8 +46,17 @@ export default function ContentsViewer(props) {
       
     return (
         <div>
-            <h5> {postData?.ca_nm}</h5>
-            <h2>{postData?.subject}</h2>
+          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            <div style={{width: '10%', height: '100%', position: 'relative'}}>
+              <img style={{objectFit: 'contain', width: '100%', height: '30%'}} src={label} alt="" />
+              <h5 style={{position: 'absolute', bottom: 0, left: 0, width: '100%', margin: 0, padding: '20px 0'}}>{postData?.ca_nm}</h5>
+            </div>
+            <div style={{width: '10%', height: '100%', position: 'relative'}}>
+              <img style={{objectFit: 'contain', width: '100%', height: '30%'}} src={label} alt="" />
+              <h5 style={{textAlign: 'center', position: 'absolute', bottom: 0, width: '100%', margin: 0, padding: '30px 0'}}>{postData.create_date}</h5>
+            </div>
+          </div>
+            <h2 style={{textAlign: 'center'}}>{postData?.subject}</h2>
             {/* <div dangerouslySetInnerHTML={{__html:postData?.content}}> */}
             <PostView content={postData?.content}></PostView>
             {/* </div> */}
