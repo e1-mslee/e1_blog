@@ -2,12 +2,54 @@
     text-align: right;
 }
 
+#postController{
+    width: 70%;
+    margin: 0 auto;
+    color: black;
+}
+
 .TdBorder{
-    border-top: 1px solid #6ac2f5;
-    border-bottom: 1px solid #6ac2f5;
     background-color: #f5f6f7;
 }
 
-#postList{
-    border: 1px solid #6ac2f5;
+.postId{
+    width: 15%;
+}
+
+.postTitle{
+    cursor: pointer;
+    width: 70%;
+}
+
+#postControllerTitle{
+    margin-bottom: 5px;
+    color: black;
+}
+
+.postDate{
+    width: 15%;
+    text-align: center;
+}
+
+.pagination{
+    display: flex;
+    justify-content: center;
+}
+
+#leftArrow, #rightArrow{
+    width: 50%;
+    background-repeat: no-repeat;
+    border-bottom: none;
+    margin-top: 6px;
+}
+
+#leftArrowLi, #rightArrowLi{
+    width: 5%;
+    border-bottom: none;
+}
+
+.disabled {
+    cursor: default;
+    pointer-events: none;
+    opacity: 0.2;
 }

@@ -37,7 +37,7 @@ function App() {
             </Routes>
           </Fragment>
           </section>
-          {flag() && <PostController/>}
+          {flag() && <PostController sendCategory={categoryName}/>}
           </div>
       </div>
       <SidebarComponent updateCategory={(value) =>setCategoryName(value)}/>

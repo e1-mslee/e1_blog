@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import MyMain from '../pages/Home';
-import { event } from 'jquery';
 import { Link } from "react-router-dom";
 
 //자식 li 요소 클릭 시 html 렌더링 이벤트

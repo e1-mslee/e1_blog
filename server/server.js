@@ -77,6 +77,25 @@ app.get('/api/post', async (req, res) => {
   }
 });
 
+app.get('/api/getPosts', async(req, res) => {
+  try{
+    const sql = ` SELECT post_id,
+                         subject,
+                         CONTENT,
+                         category_id,
+                         TO_CHAR(create_date, 'YYYY-MM-DD') AS date 
+                    FROM post
+                   WHERE category_id = (
+                                        SELECT ca_id
+                                          FROM category c
+                                         WHERE ca_nm = '${req.query.category}')`;
+    const rows = await queryPostgreSQL(sql);
+    res.send(rows);
+  } catch (err) { 
+    console.error('Error querying PostgreSQL:', err);
+    res.status(500).send('Internal Server Error');
+  }
+})
 
 app.post('/api/category/get', async(req, res) => {
   try{

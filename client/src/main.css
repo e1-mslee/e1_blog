@@ -19,7 +19,7 @@ section, summary, time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
-  font-family: 'NotoSansKrLight', serif;
+  font-family: "Roboto Slab", serif;
   font-size: 100%;
   font: inherit;
   vertical-align: baseline; }
@@ -93,7 +93,7 @@ body {
 /* Type */
 body, input, select, textarea {
   color: #7f888f;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Roboto Slab", serif;
   font-size: 13pt;
   font-weight: 400;
   line-height: 1.65; }
@@ -993,7 +993,7 @@ section.special, article.special {
   text-align: center; }
 
 header p {
-  font-family: "Roboto Slab", serif;
+  font-family: 'NotoSansKrLight', serif;
   font-size: 1em;
   font-weight: 400;
   letter-spacing: 0.075em;
@@ -1123,7 +1123,7 @@ input[type="radio"] {
       text-rendering: auto;
       line-height: 1;
       text-transform: none !important;
-      font-family: 'Font Awesome 5 Free';
+      font-family: 'NotoSansKrLight', serif;
       font-weight: 900; }
     input[type="checkbox"] + label:before,
     input[type="radio"] + label:before {
@@ -1376,7 +1376,7 @@ ul.contact {
       text-rendering: auto;
       line-height: 1;
       text-transform: none !important;
-      font-family: 'Font Awesome 5 Free';
+      font-family: 'NotoSansKrLight', serif;
       font-weight: 400; }
     ul.contact li:before {
       color: #6ac2f5;
@@ -1987,7 +1987,7 @@ button,
       text-rendering: auto;
       line-height: 1;
       text-transform: none !important;
-      font-family: 'Font Awesome 5 Free';
+      font-family: 'NotoSansKrLight', serif;
       font-weight: 900; }
     #sidebar .toggle:before {
       content: '\f0c9';
