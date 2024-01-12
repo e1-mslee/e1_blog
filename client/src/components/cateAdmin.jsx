@@ -3,6 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import '../viewer.css';
+import { node } from 'prop-types';
 
 const CateAdmin = () => {
     const [supiCate, setSupiCate] = useState('');
@@ -85,6 +87,32 @@ const CateAdmin = () => {
         setCateList(updatedList);
     }
 
+    const listCateChange = async(cate) => {
+         // validation
+        let nodeCnt = await getNodeCnt(cate);
+
+        if(nodeCnt !== "0") {
+            alert("하위 카테고리가 있습니다.");
+            return;
+        }
+
+        listNameChange(cate);
+    }
+
+    const getNodeCnt = async(cate) => {
+        let nodeCntData = await fetch("/api/nodeCnt", {
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify(cate)
+        })
+        let nodeCnt = await nodeCntData.json();
+        nodeCnt = nodeCnt[0]['cnt'];
+
+        return nodeCnt;
+    }
+
     const updateHandler = async(cate) => {
         await fetch("/api/categoryUpdate", {
             method: "POST",
@@ -99,15 +127,7 @@ const CateAdmin = () => {
 
     const deleteHandler = async(cate) => {
         // validation
-        let nodeCntData = await fetch("/api/nodeCnt", {
-            method: "POST",
-            headers: {
-                "Content-Type" : "application/json"
-            },
-            body: JSON.stringify(cate)
-        })
-        let nodeCnt = await nodeCntData.json();
-        nodeCnt = nodeCnt[0]['cnt'];
+        let nodeCnt = await getNodeCnt(cate);
 
         if(nodeCnt !== "0") {
             alert("하위 카테고리가 있습니다.");
@@ -142,62 +162,62 @@ const CateAdmin = () => {
 
 
     return (
-        <div className='row'>
+        <div>
             <h2>카테고리 관리</h2>
-            <hr/>
-            <h4>카테고리 추가</h4>
-            <Row>
-                <Col md={2}>
-                    <Form.Select onChange={categoryChanged}>
-                        <option value="">선택</option>
-                        {supiOptions.map((option, i) => (
-                            <option key={i} value={option.ca_id}>{option.ca_nm}</option>
-                        ))}
-                    </Form.Select>
-                </Col>
-                <Col md={6}>
-                    <Form.Control type="text" className='mb-2' id="caNm" placeholder="카테고리명을 입력하세요." value={cateName} onChange={nameChange}/>
-                </Col>
-                <Col md={1}>
-                    <button type='button' className="button primary" onClick={insertCate}>등록</button>
-                </Col>
-            </Row>
-            <hr/>
-            <table id='postList'>
-                <tbody>
-                    <tr>
-                        <td className='TdBorder'>ID</td>
-                        <td className='TdBorder'>상위 카테고리</td>
-                        <td className='TdBorder'>카테고리</td>
-                        <td className='TdBorder'></td>
-                        <td className='TdBorder'></td>
-                    </tr>
-                    {cateList.map((cate) => (
-                        <tr key={cate.id}>
-                            <td className='TdBorder'>{cate.ca_id}</td>
-                            <td className='TdBorder'>
-                                {cate.ca_id !== 1 && ( <Form.Select className="form-select-sm" value={cate.supi_id} onChange={(e) => {listNameChange({...cate, supi_id: e.target.value})}}>
-                                {supiOptions.map((option, i) => (
-                                    <option key={i} value={option.ca_id}>{option.ca_nm}</option>
-                                ))}
-                                </Form.Select> )}</td>
-                            <td className='TdBorder'><Form.Control type="text" className='form-control-sm' value={cate.ca_nm} onChange={(e) => {listNameChange({ ...cate, ca_nm: e.target.value})}}/></td>
-                            {cate.ca_id !== 1 &&(
-                                <>
-                                    <td className='TdBorder'><button type="button" className='button small primary' onClick={() => updateHandler(cate)}>수정</button></td>
-                                    <td className='TdBorder'><button type="button" className='button small primary' onClick={() => deleteHandler(cate)}>삭제</button></td>
-                                </>
-                            )}
-                            {cate.ca_id === 1 &&(
-                                <>
-                                    <td className='TdBorder'></td>
-                                    <td className='TdBorder'></td>
-                                </>
-                            )}
+            <div id='postController' className='row'>
+                <p id="postControllerTitle">카테고리 추가</p>
+                <Row>
+                    <Col md={2}>
+                        <Form.Select onChange={categoryChanged}>
+                            <option value="">선택</option>
+                            {supiOptions.map((option, i) => (
+                                <option key={i} value={option.ca_id}>{option.ca_nm}</option>
+                            ))}
+                        </Form.Select>
+                    </Col>
+                    <Col md={6}>
+                        <Form.Control type="text" className='mb-2' id="caNm" placeholder="카테고리명을 입력하세요." value={cateName} onChange={nameChange}/>
+                    </Col>
+                    <Col md={1}>
+                        <button type='button' className="button primary" onClick={insertCate}>등록</button>
+                    </Col>
+                </Row>
+                <table id='postList'>
+                    <tbody>
+                        <tr>
+                            <td className='TdBorder'>ID</td>
+                            <td className='TdBorder'>상위 카테고리</td>
+                            <td className='TdBorder'>카테고리</td>
+                            <td className='TdBorder'></td>
+                            <td className='TdBorder'></td>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                        {cateList.map((cate) => (
+                            <tr key={cate.id}>
+                                <td className='TdBorder'>{cate.ca_id}</td>
+                                <td className='TdBorder'>
+                                    {cate.ca_id !== 1 && ( <Form.Select className="form-select-sm" value={cate.supi_id} onChange={(e) => {listCateChange({...cate, supi_id: e.target.value})}}>
+                                    {supiOptions.map((option, i) => (
+                                        <option key={i} value={option.ca_id}>{option.ca_nm}</option>
+                                    ))}
+                                    </Form.Select> )}</td>
+                                <td className='TdBorder'><Form.Control type="text" className='form-control-sm' value={cate.ca_nm} onChange={(e) => {listNameChange({ ...cate, ca_nm: e.target.value})}}/></td>
+                                {cate.ca_id !== 1 &&(
+                                    <>
+                                        <td className='TdBorder btnTd'><button type="button" className='button small primary' onClick={() => updateHandler(cate)}>수정</button></td>
+                                        <td className='TdBorder btnTd'><button type="button" className='button small primary' onClick={() => deleteHandler(cate)}>삭제</button></td>
+                                    </>
+                                )}
+                                {cate.ca_id === 1 &&(
+                                    <>
+                                        <td className='TdBorder'></td>
+                                        <td className='TdBorder'></td>
+                                    </>
+                                )}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }
