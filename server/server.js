@@ -59,10 +59,14 @@ app.get('/api/post', async (req, res) => {
   try {
     const sql = `SELECT POST_ID
                        ,SUBJECT
-                       ,CG.CA_NM
                        ,CREATE_DATE
                        ,UPDATE_DATE 
                        ,CONTENT
+                       ,CASE WHEN SUPI_ID > 1 THEN
+                       (SELECT CA_NM || ' > ' FROM CATEGORY WHERE CA_ID=CG.SUPI_ID) || CG.CA_NM
+                       ELSE
+                       CG.CA_NM
+                       END
                   FROM POST P,
                        CATEGORY CG
                  WHERE P.CATEGORY_ID=CG.CA_ID 
