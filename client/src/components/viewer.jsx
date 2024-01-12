@@ -13,12 +13,12 @@ export default function ContentsViewer(props) {
 
         const fetchData = async () => {
             try {
-              const response = await fetch(`/api/post?category=${props.sendCategory}`, {
-                method: 'GET',
-                headers: {
-                'Content-Type': 'application/json',
-                }
-            });
+                const response = await fetch(`/api/post?category=${props.sendCategory}&postid=${props.sendPostId}`, {
+                  method: 'GET',
+                  headers: {
+                  'Content-Type': 'application/json',
+                  }
+              }); 
               const data = await response.text();
               if(data.length===0){
                 const temp={content:'해당 카테고리의 게시물이 존재하지 않습니다.'};
@@ -33,7 +33,7 @@ export default function ContentsViewer(props) {
           };
 
         fetchData();
-      }, [props.sendCategory]); // 마운트 시에만 실행
+      }, [props.sendCategory,props.sendPostId]); // 마운트 시에만 실행
 
 
     if (!postData || props.sendCategory==null) {

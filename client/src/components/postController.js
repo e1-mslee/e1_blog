@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../viewer.css';
 import leftArrow from '../img/left-arrow.png';
 import rightArrow from '../img/right-arrow.png';
+import { Link } from "react-router-dom";
 
 const PostController = (props) => {
   console.log(props.sendCategory);
@@ -55,7 +56,7 @@ const PostController = (props) => {
           {getCurrentPosts().map((post) => (
             <tr key={post.post_id}>
               <td className='TdBorder postId'>{post.post_id}</td>
-              <td className='TdBorder postTitle'>{post.subject}</td>
+              <td className='TdBorder postTitle'><Link to="/viewer" onClick={()=>props.updatePostId(post.post_id)} style={ {textDecoration: 'none'}} >{post.subject} </Link></td>
               <td className='TdBorder postDate'>{post.date}</td>
             </tr>
           ))}

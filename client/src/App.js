@@ -16,6 +16,7 @@ function App() {
   const [controller, setController] = useState(true);
   const location = useLocation();
   const [categoryName, setCategoryName] = useState(true);
+  const [postId, setpostID] = useState(false);
 
   const flag = () => {
     const currentPath = location.pathname;
@@ -33,14 +34,14 @@ function App() {
                   <Route path="/" element={<Home />} />
                   <Route path="/edit" element={<Edit />} />
                   <Route path="/admin" element={<CateAdmin />} />
-                  <Route path="/viewer" element={<Viewer sendCategory={categoryName} />} />
+                  <Route path="/viewer" element={<Viewer sendCategory={categoryName} sendPostId={postId}  />} />
               </Routes>
             </div>
           </section>
-          {flag() && <PostController sendCategory={categoryName}/>}
+          {flag() && <PostController sendCategory={categoryName} updatePostId={(value) =>setpostID(value)} />}
           </div>
       </div>
-      <SidebarComponent updateCategory={(value) =>setCategoryName(value)}/>
+      <SidebarComponent updateCategory={(value) =>setCategoryName(value)} resetPostID={(value)=>setpostID(value)}/>
     </div>    
   );
 };

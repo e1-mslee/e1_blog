@@ -57,7 +57,7 @@ app.post('/api/insert', async (req, res) => {
 
 app.get('/api/post', async (req, res) => {
   try {
-    const sql = `SELECT POST_ID
+    let sql = `SELECT POST_ID
                        ,SUBJECT
                        ,CG.CA_NM
                        ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS CREATE_DATE
@@ -71,9 +71,13 @@ app.get('/api/post', async (req, res) => {
                   FROM POST P,
                        CATEGORY CG
                  WHERE P.CATEGORY_ID=CG.CA_ID 
-                   AND CA_NM='${req.query.category}'
-              ORDER BY CREATE_DATE
-                 LIMIT 1;`;
+                   AND CA_NM='${req.query.category}'`;
+
+                   if (req.query.postid!=='false') {
+                    sql += ` AND POST_ID='${req.query.postid}'`;
+                  }
+                  sql += ` ORDER BY CREATE_DATE
+                               LIMIT 1;`;
     const rows = await queryPostgreSQL(sql);
     res.send(rows[0]);
   } catch (err) {
