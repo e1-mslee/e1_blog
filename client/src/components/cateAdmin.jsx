@@ -165,7 +165,7 @@ const CateAdmin = () => {
         <div>
             <h2>카테고리 관리</h2>
             <div id='postController' className='row'>
-                <p id="postControllerTitle">카테고리 추가</p>
+                <h5 id="postControllerTitle">카테고리 추가</h5>
                 <Row>
                     <Col md={2}>
                         <Form.Select onChange={categoryChanged}>
