@@ -12,7 +12,7 @@ const PostView=({content})=>{
         console.log("sdfds");
       }, [content]);
 
-	return <Viewer key={content} initialValue={initialValue} />;
+	return <Viewer key={initialValue} initialValue={initialValue} />;
 }
 
 export default PostView;

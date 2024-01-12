@@ -21,8 +21,8 @@ export default function ContentsViewer(props) {
               const data = await response.text();
               if(data.length===0){
                 const temp={content:'해당 카테고리의 게시물이 존재하지 않습니다.'};
-                setPostData(temp);
-              }else{
+                    setPostData(temp);
+              } else {
                     setPostData(JSON.parse(data));
                 }
             } catch (error) {
