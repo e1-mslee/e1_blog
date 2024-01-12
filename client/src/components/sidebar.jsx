@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
+import cogWheel from "../img/cogWheel.png";
 
 //자식 li 요소 클릭 시 html 렌더링 이벤트
 const changePage = (item) => {
@@ -71,7 +72,12 @@ const SidebarComponent = ({updateCategory,resetPostID}) => {
         <div className='inner'>
           <nav id='menu'>
             <header className='major'>
-              <h2>Category</h2>
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <h2 style={{marginBottom: 0}}>Category</h2>
+                    <Link to='/admin' style={{borderBottom: 'none', textAlign: 'right', display: 'inline-block'}}>
+                        <img style={{width: '10%', cursor: 'pointer', marginTop: '10px'}} src={cogWheel} alt="" />
+                    </Link>
+                </div>
             </header>
             <ul>
               <li><Link to='/'>Main Page</Link></li>
