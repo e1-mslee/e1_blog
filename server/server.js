@@ -143,7 +143,10 @@ app.post('/api/post/insert', async(req,res) => {
 
 app.post('/api/categoryList', async (req, res) => {
   try {
-    const sql = `SELECT ca_id, ca_nm, supi_id FROM category`;
+    const sql = `SELECT ca_id, 
+                        ca_nm, 
+                        supi_id 
+                   FROM category`;
     const rows = await queryPostgreSQL(sql);     
     res.send(rows);       
   } catch (err) {
@@ -154,7 +157,11 @@ app.post('/api/categoryList', async (req, res) => {
 
 app.post('/api/supiCategoryList', async (req, res) => {
   try {
-    const sql = `SELECT ca_id, ca_nm, supi_id FROM category WHERE ca_id = 1 OR supi_id = 1`;
+    const sql = `SELECT ca_id, 
+                        ca_nm, 
+                        supi_id 
+                   FROM category 
+                  WHERE ca_id = 1 OR supi_id = 1`;
     const rows = await queryPostgreSQL(sql);     
     res.send(rows);       
   } catch (err) {
@@ -180,20 +187,6 @@ app.post('/api/categoryDetailList', async (req, res) => {
     res.status(500).send('에러 발생');
   }
 });
-
-app.post('/api/categoryInsert', async(req,res) => {
-  try{
-    const sql = `INSERT INTO category ( ca_nm, supi_id )
-                        VALUES ( '${req.body.ca_nm}', '${req.body.supi_id}')`;
-
-    console.log(sql);
-    await queryPostgreSQL(sql);
-    res.status(200).send('SUCCESS');
-  } catch(err){
-    console.error('Error inserting post data', err);
-    res.status(500).send('저장에 실패했습니다.' + err);
-  }
-})
 
 app.post('/api/categoryInsert', async(req,res) => {
   try{
