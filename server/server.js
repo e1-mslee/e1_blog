@@ -55,8 +55,11 @@ app.post('/api/insert', async (req, res) => {
   }
 });
 
-app.get('/api/post', async (req, res) => {
+app.get('/api/post/:category/:postid', async (req, res) => {
   try {
+    const category = req.params.category;
+    const postid = req.params.postid;
+
     let sql = `SELECT POST_ID
                        ,SUBJECT
                        ,CG.CA_NM
@@ -71,13 +74,12 @@ app.get('/api/post', async (req, res) => {
                   FROM POST P,
                        CATEGORY CG
                  WHERE P.CATEGORY_ID=CG.CA_ID 
-                   AND CA_NM='${req.query.category}'`;
-
-                   if (req.query.postid!=='false') {
-                    sql += ` AND POST_ID='${req.query.postid}'`;
+                   AND CA_NM='${category}'`;
+                  if(postid!=0){
+                   sql+=`AND POST_ID='${postid}'`;
                   }
-                  sql += ` ORDER BY CREATE_DATE
-                               LIMIT 1;`;
+                   sql+=`ORDER BY CREATE_DATE
+                   LIMIT 1;`;
     const rows = await queryPostgreSQL(sql);
     res.send(rows[0]);
   } catch (err) {

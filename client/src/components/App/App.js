@@ -14,8 +14,8 @@ import CateAdmin from "../Admin/cateAdmin";
 function App() {
   const [controller, setController] = useState(true);
   const location = useLocation();
-  const [categoryName, setCategoryName] = useState(true);
-  const [postId, setpostID] = useState(false);
+  const [categoryName, setCategoryName] = useState(0);
+  const [postId, setpostID] = useState(0);
 
   const flag = () => {
     const currentPath = location.pathname;
@@ -33,14 +33,14 @@ function App() {
                   <Route path="/" element={<Home />} />
                   <Route path="/edit" element={<Edit />} />
                   <Route path="/admin" element={<CateAdmin />} />
-                  <Route path="/viewer" element={<Viewer sendCategory={categoryName} sendPostId={postId}  />} />
+                  <Route path="/viewer/:category/:postid" element={<Viewer />} />
               </Routes>
             </div>
           </section>
           {flag() && <PostController sendCategory={categoryName} updatePostId={(value) =>setpostID(value)} />}
           </div>
       </div>
-      <SidebarComponent updateCategory={(value) =>setCategoryName(value)} resetPostID={(value)=>setpostID(value)}/>
+      <SidebarComponent updateCategory={(value) =>setCategoryName(value)}/>
     </div>    
   );
 };

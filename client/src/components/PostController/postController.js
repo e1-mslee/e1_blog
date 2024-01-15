@@ -2,23 +2,26 @@ import React, { useState, useEffect } from 'react';
 import '../Viewer/viewer.css';
 import leftArrow from '../../assets/images/left-arrow.png';
 import rightArrow from '../../assets/images/right-arrow.png';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const PostController = (props) => {
-  console.log(props.sendCategory);
   const [posts, setPosts] = useState([]); // 글 목록 상태
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
   const postsPerPage = 5; // 페이지당 표시되는 글 수
 
+  const {pathname}= useLocation();
+  const category=decodeURIComponent(pathname.split('/')[2]);
+
   // 전체 글 목록을 가져오는 비동기 함수
   const fetchPosts = async () => {
     try {
-        const response = await fetch(`/api/getPosts?category=${props.sendCategory}`,{
+        const response = await fetch(`/api/getPosts?category=${category}`,{
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
             }
         }); // 예시: 실제 API 경로로 변경
+
         const data = await response.text();
         setPosts(JSON.parse(data)); 
         console.log(data);
@@ -43,11 +46,11 @@ const PostController = (props) => {
   // 컴포넌트가 마운트될 때 전체 글 목록을 가져옴
   useEffect(() => {
     fetchPosts();
-  }, [props.sendCategory]);
+  }, [category]);
 
   return (
     <div id='postController' style={{marginTop: '40px'}}>
-      <p style={{fontFamily: 'Font Awesome 5 Free'}} id='postControllerTitle'>{props.sendCategory}의 관련글</p>
+      <p style={{fontFamily: 'Font Awesome 5 Free'}} id='postControllerTitle'>{category}의 관련글</p>
       <table id='postList'>
         <tbody>
           {getCurrentPosts().map((post) => {
@@ -56,7 +59,7 @@ const PostController = (props) => {
           {getCurrentPosts().map((post) => (
             <tr key={post.post_id}>
               <td className='TdBorder postId'>{post.post_id}</td>
-              <td className='TdBorder postTitle'><Link to="/viewer" onClick={()=>props.updatePostId(post.post_id)} style={ {textDecoration: 'none'}} >{post.subject} </Link></td>
+              <td className='TdBorder postTitle'><Link to={`/viewer/${category}/${post.post_id}`} style={ {textDecoration: 'none'}} >{post.subject} </Link></td>
               <td className='TdBorder postDate'>{post.date}</td>
             </tr>
           ))}

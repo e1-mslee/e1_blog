@@ -4,16 +4,17 @@ import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PostView from './toastViewer';
 import label from '../../assets/images/label.png';
+import { useParams } from 'react-router-dom';
 
 export default function ContentsViewer(props) {
     
     const [postData, setPostData] = useState();
-
+    const { category, postid } = useParams();
     useEffect(() => {
 
         const fetchData = async () => {
             try {
-                const response = await fetch(`/api/post?category=${props.sendCategory}&postid=${props.sendPostId}`, {
+                const response = await fetch(`/api/post/${category}/${postid}`, {
                   method: 'GET',
                   headers: {
                   'Content-Type': 'application/json',
@@ -33,10 +34,10 @@ export default function ContentsViewer(props) {
           };
 
         fetchData();
-      }, [props.sendCategory,props.sendPostId]); // 마운트 시에만 실행
+      }, [category,postid]); // 마운트 시에만 실행
 
 
-    if (!postData || props.sendCategory==null) {
+    if (!postData) {
         return (
             <div>
                 <p>해당 카테고리의 게시물이 존재하지 않습니다.</p>

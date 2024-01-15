@@ -8,7 +8,7 @@ const changePage = (item) => {
 }
 
 //자식 li 요소 렌더링 함수
-const OpenerComponent = ({ label, subitems, updateC,resetP }) => {
+const OpenerComponent = ({ label, subitems, updateC}) => {
     const [isActive, setIsActive] = useState(false);
   
     const toggleOpener = () => {
@@ -20,14 +20,14 @@ const OpenerComponent = ({ label, subitems, updateC,resetP }) => {
         <span className={`opener ${isActive ? 'active' : ''}`} onClick={toggleOpener}>{label}</span>
         <ul style={{ display: isActive ? 'block' : 'none' }}>
           {subitems.map((item, index) => (
-            <li key={index}><Link to='/viewer' onClick={()=>{updateC(item); resetP(false);}}>{item}</Link></li>
+            <li key={index}><Link to={`/viewer/${item}/0`} onClick={()=>{updateC(item);}}>{item}</Link></li>
           ))}
         </ul>
       </li>
     );
   };
    
-const SidebarComponent = ({updateCategory,resetPostID}) => {
+const SidebarComponent = ({updateCategory}) => {
     const [post, setPost] = useState('');
     const [categories, setCategories] = useState([]); // 새로운 상태 추가
 
@@ -83,7 +83,7 @@ const SidebarComponent = ({updateCategory,resetPostID}) => {
               <li><Link to='/'>Main Page</Link></li>
               {resultArray.map((data) => {
               return (
-                <OpenerComponent key={data.ca_id} label={data.ca_nm} subitems={data.subitems} updateC={(value)=>updateCategory(value)} resetP={(value)=>resetPostID(value)} />
+                <OpenerComponent key={data.ca_id} label={data.ca_nm} subitems={data.subitems} updateC={(value)=>updateCategory(value)}/>
               );
             })}
             </ul>
