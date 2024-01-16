@@ -2,8 +2,11 @@ import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import e1 from "../../assets/images/e1.PNG";
 
-const MyHeader = () => {
+const MyHeader = (props) => {
   const navi = useNavigate();
+
+  const locationEdit =useLocation();
+  const pathFlag=locationEdit.pathname.split('/');
 
   const deletePost = async () => {
     const userConfirmed = window.confirm('삭제하시겠습니까?');
@@ -51,12 +54,13 @@ const MyHeader = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname === '/') {
-      const deleteBtn = document.getElementById('deleteBtn');
-      deleteBtn.style.display = 'none';
-    } else {
-      const deleteBtn = document.getElementById('deleteBtn');
-      deleteBtn.style.display = '';
+    const deleteBtn = document.getElementById('deleteBtn');
+    if(deleteBtn){
+        if (location.pathname === '/') {
+        deleteBtn.style.display = 'none';
+        } else {
+        deleteBtn.style.display = '';
+        }
     }
   }, [location.pathname]);
 
@@ -67,8 +71,9 @@ const MyHeader = () => {
           <img src={e1} alt="로고" />
         </div>
         <div className='buttonGroup'>
-          <Link to="/edit" style={{ borderBottom: 'none' }}><button className='button small'>글쓰기</button></Link>
-          <button id="deleteBtn" className="button small" onClick={() => {deletePost()}}>삭제</button>
+          {pathFlag[1]!=='edit' && 
+          (<Link to="/edit" onClick={()=>props.setF(pathFlag)} style={{ borderBottom: 'none' }}><button className='button small'>{pathFlag[1]!=='viewer' || pathFlag[1]==='/'?'글쓰기':'글수정'}</button></Link>)}
+          {pathFlag[1]==='viewer' && (<button id="deleteBtn" className="button small" onClick={() => {deletePost()}}>삭제</button>)}
         </div>
       </header>
     </div>

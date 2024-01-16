@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import cogWheel from "../../assets/images/cogWheel.png";
 
 //자식 li 요소 클릭 시 html 렌더링 이벤트
@@ -10,11 +10,33 @@ const changePage = (item) => {
 //자식 li 요소 렌더링 함수
 const OpenerComponent = ({ label, subitems, updateC}) => {
     const [isActive, setIsActive] = useState(false);
-  
+    const [caPostId, setCaPostId] = useState('');
+    const navi = useNavigate();
+    
     const toggleOpener = () => {
       setIsActive(!isActive);
     };
-    
+
+    const categoryPostId = async (item) => {
+      
+      try {
+      const response = await fetch(`/api/categoryListPostId?category=${item}`, {
+          method: 'POST',
+          headers: {
+          'Content-Type': 'application/json',
+          }
+      });
+      const body = await response.json(); // JSON 형식으로 파싱
+      setCaPostId(body);
+      updateC(item);
+
+      navi(`/viewer/${item}/${caPostId.post_id}`);
+
+      } catch (error) {
+      console.error("Error fetching category list:", error);
+      }
+    };  
+
     return (
       <li>
         <span className={`opener ${isActive ? 'active' : ''}`} onClick={toggleOpener}>{label}</span>

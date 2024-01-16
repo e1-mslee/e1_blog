@@ -10,17 +10,23 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-
-const EditorComponent = () => {
+const EditorComponent = (props) => {
   const [category, setCategory] = useState('');
   const [secCategory, setSecCategory] = useState('');
   const [title, setTitle] = useState("");
+  const [modPost,setmodPost]=useState();
   let [cateOptions, setOptions] = useState([]);
   let [secCateOptions, setSecOptions] = useState([]);
-
+  const [editorInitialized, setEditorInitialized] = useState(false);
   const editorRef = useRef(null);
-
   const navi = useNavigate();
+
+
+  
+  const findCategoryIdByName = (name, options) => {
+    const foundOption = options.find(option => option.ca_nm === name);
+    return foundOption ? foundOption.ca_id : null;
+  };
 
   const getComboData = async(supiId) => {
       if(supiId === "" || supiId === null){
@@ -39,18 +45,72 @@ const EditorComponent = () => {
       })
 
       const data = await response.json();
+      console.log(data)
       cateOptions = data;
       if(supiId === 1) setOptions(cateOptions);
       else setSecOptions(cateOptions);
+
   }
 
+  const getModData = async(ca_nm,p_id) => {
+
+    const modResponse = await fetch(`/api/getModPost/${ca_nm}/${p_id}`, {
+      method: 'POST',
+      headers:{
+        'Content-Type' : 'application/json',
+      }
+    })
+    const modData = await modResponse.json();
+    setmodPost(modData);
+    
+}
+
+  useEffect(()=>{
+    if (modPost && modPost.supi_id) {
+    getComboData(findCategoryIdByName(modPost.supi_id, cateOptions));
+    }
+  },[modPost]);
+
+  useEffect(()=>{
+    if(modPost!==undefined){
+      setTitle(modPost.subject)
+    }
+
+    if (modPost && modPost.supi_id) {
+      // modPost의 supi_id에 해당하는 id 값을 찾아서 setCategory에 전달
+      setCategory(findCategoryIdByName(modPost.supi_id, cateOptions));
+    }
+
+    if (modPost && modPost.ca_nm) {
+      // modPost의 ca_nm에 해당하는 id 값을 찾아서 setSecCategory에 전달
+      setSecCategory(findCategoryIdByName(modPost.ca_nm, secCateOptions));
+    }
+  
+
+  },[modPost, cateOptions, secCateOptions])
+
   useEffect(() => {
+    if (editorRef.current && !editorInitialized) {
+      // Editor가 처음으로 초기화되면서 modPost.content를 설정합니다.
+      const editorInstance = editorRef.current.getInstance();
+      editorInstance.setMarkdown(modPost?.content || '');
+
+      // editorInitialized를 true로 설정하여 더 이상 실행되지 않도록 합니다.
+      setEditorInitialized(true);
+    }
+  }, [editorRef, modPost, editorInitialized]);
+  
+
+  useEffect(() => {
+    if(props.sendFlag[1]==='viewer'){
+      getModData(props.sendFlag[2],props.sendFlag[3]);
+    }
     getComboData(1);
   }, []);
 
   const handleSave = async(e) => {
     let content = editorRef.current.getInstance().getMarkdown();
-    
+
     if(category === null || category === ''){
       alert('대분류를 선택하세요.');
       return;
@@ -74,7 +134,7 @@ const EditorComponent = () => {
     , content: content
     }
 
-
+    if(props.sendFlag[1]===''){
     await fetch("/api/post/insert", {
       method: "POST",
       headers: {
@@ -82,8 +142,17 @@ const EditorComponent = () => {
       },
       body: JSON.stringify(sendData),
     })
+    }else if(props.sendFlag[1]==='viewer'){
+      await fetch(`/api/post/mod?postid=${props.sendFlag[3]}`, {
+        method: "POST",
+        headers: {
+          'Content-Type' : 'application/json',
+        },
+        body: JSON.stringify(sendData),
+      })
+    }
 
-    navi("/viewer");
+    navi(`/viewer/${props.sendFlag[2]}/${props.sendFlag[3]}`);
   }
 
   const categoryChange = (e) => {
@@ -158,7 +227,7 @@ const EditorComponent = () => {
     </Row>
     <Row>
         <Editor
-            initialValue=" "
+            initialValue={modPost?.content || " "}
             previewStyle="none"
             height="550px"
             initialEditType="wysiwyg"
@@ -170,11 +239,11 @@ const EditorComponent = () => {
             hooks={{
                 addImageBlobHook: onUploadImage
             }}
-            />
+            key={modPost}/>
     </Row>
     <Row>
       <Col style={{textAlign: "center", marginTop: '1em'}}>
-          <Link to="#" onClick={handleSave}><span className="button primary">등록</span></Link>
+          <Link to="#" onClick={handleSave}><span className="button primary">{props.sendFlag[1]==='viewer'?'수정':'등록'}</span></Link>
       </Col>
     </Row>
 </div>

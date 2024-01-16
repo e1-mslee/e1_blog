@@ -16,6 +16,7 @@ function App() {
   const location = useLocation();
   const [categoryName, setCategoryName] = useState(0);
   const [postId, setpostID] = useState(0);
+  const [flagName,setFlag] =useState([]); 
 
   const flag = () => {
     const currentPath = location.pathname;
@@ -26,12 +27,12 @@ function App() {
     <div id="wrapper">
       <div id="main">
         <div className='inner'>
-          <MyHeader />
+          <MyHeader setF={(value)=>setFlag(value)} />
           <section id="banner" style={{backgroundColor: '#f5f6f7'}}>
             <div style={{width: '100%'}}>
               <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/edit" element={<Edit />} />
+                  <Route path="/" element={<Home />}  />
+                  <Route path="/edit" element={<Edit sendFlag={flagName} />} />
                   <Route path="/admin" element={<CateAdmin />} />
                   <Route path="/viewer/:category/:postid" element={<Viewer />} />
               </Routes>

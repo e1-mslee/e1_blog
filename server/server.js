@@ -26,25 +26,25 @@ app.get('/api/post/:category/:postid', async (req, res) => {
     const postid = req.params.postid;
 
     let sql = `SELECT POST_ID
-                       ,SUBJECT
-                       ,CG.CA_NM
-                       ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS CREATE_DATE
-                       ,UPDATE_DATE 
-                       ,CONTENT
-                       ,CASE WHEN SUPI_ID > 1 THEN
-                       (SELECT CA_NM || ' > ' FROM CATEGORY WHERE CA_ID=CG.SUPI_ID) || CG.CA_NM
-                       ELSE
-                       CG.CA_NM
-                       END
-                  FROM POST P,
-                       CATEGORY CG
-                 WHERE P.CATEGORY_ID=CG.CA_ID 
-                   AND CA_NM='${category}'`;
-                  if(postid!=0){
-                   sql+=`AND POST_ID='${postid}'`;
-                  }
-                   sql+=`ORDER BY CREATE_DATE
-                   LIMIT 1;`;
+                      ,SUBJECT
+                      ,CG.CA_NM
+                      ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS CREATE_DATE
+                      ,UPDATE_DATE 
+                      ,CONTENT
+                      ,CASE WHEN SUPI_ID > 1 THEN
+                      (SELECT CA_NM || ' > ' FROM CATEGORY WHERE CA_ID=CG.SUPI_ID) || CG.CA_NM
+                      ELSE
+                      CG.CA_NM
+                      END
+                FROM POST P,
+                      CATEGORY CG
+                WHERE P.CATEGORY_ID=CG.CA_ID 
+                  AND CA_NM='${category}'`;
+    if(postid!=0){
+            sql+=`AND POST_ID='${postid}'`; 
+    }
+      sql+=`ORDER BY CREATE_DATE
+                LIMIT 1;`;
     const rows = await queryPostgreSQL(sql);
     res.send(rows[0]);
   } catch (err) {
@@ -52,6 +52,34 @@ app.get('/api/post/:category/:postid', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+app.post('/api/getModPost/:category/:postid', async(req, res) => {
+  try{
+
+    const category = req.params.category;
+    const postid = req.params.postid;
+    let sql = ` SELECT POST_ID
+                         ,SUBJECT
+                         ,CG.CA_NM
+                         ,CONTENT
+                         ,(SELECT CA_NM  FROM CATEGORY WHERE CA_ID=CG.SUPI_ID) supi_id
+                    FROM POST P,
+                         CATEGORY CG
+              WHERE P.CATEGORY_ID=CG.CA_ID 
+                AND CA_NM='${category}'`;
+      if(`${postid}`!=0){
+        sql +=`AND POST_ID='${postid}'`; 
+      }else{
+        sql +=`ORDER BY CREATE_DATE
+				       LIMIT 1;` 
+      }
+        const rows = await queryPostgreSQL(sql);
+    res.send(rows[0]);
+  } catch (err) { 
+    console.error('Error querying PostgreSQL:', err);
+    res.status(500).send('Internal Server Error');
+  }
+})
 
 app.get('/api/getPosts', async(req, res) => {
   try{
@@ -108,6 +136,28 @@ app.post('/api/post/insert', async(req,res) => {
   }
 })
 
+app.post('/api/post/mod', async(req,res) => {
+  try{
+    let sql = `UPDATE post 
+                    SET subject='${req.body.subject}'
+                        ,content='${req.body.content}'
+                        ,category_id=${req.body.category_id}
+                        ,update_date= now()
+                  WHERE 1=1 `;
+                  if(`${req.query.postid}`!=0){
+                    sql +=`AND POST_ID=${req.query.postid}`; 
+                  }else{
+                    sql +=`AND POST_ID IN((SELECT POST_ID FROM POST WHERE CATEGORY_ID=${req.body.category_id} ORDER BY CREATE_DATE LIMIT 1));` 
+                  } 
+    console.log(sql);
+    await queryPostgreSQL(sql);
+    res.status(200).send('SUCCESS');
+  } catch(err){
+    console.error('Error inserting post data', err);
+    res.status(500).send('저장에 실패했습니다.' + err);
+  }
+})
+
 app.post('/api/post/deleteC1', async (req, res) => {
   try {
     const sql = `DELETE FROM post
@@ -154,6 +204,22 @@ app.post('/api/categoryList', async (req, res) => {
     res.status(500).send('에러 발생');
   }
 });
+
+app.post('/api/categoryListPostId', async (req, res) => {
+  try {
+    const sql = `SELECT post_id
+                   FROM post p,category cg
+                   WHERE p.category_id=cg.ca_id and ca_nm='${req.query.category}'
+                   ORDER BY CREATE_DATE
+                   LIMIT 1;`;
+    const rows = await queryPostgreSQL(sql);     
+    res.send(rows[0]);       
+  } catch (err) {
+    console.error('에러가 발생했습니다.: ',err);
+    res.status(500).send('에러 발생');
+  }
+});
+
 
 app.post('/api/supiCategoryList', async (req, res) => {
   try {
