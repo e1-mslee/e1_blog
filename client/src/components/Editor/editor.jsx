@@ -84,7 +84,6 @@ const EditorComponent = () => {
     })
 
     navi("/viewer");
-
   }
 
   const categoryChange = (e) => {

@@ -24,8 +24,6 @@ const PostController = (props) => {
 
         const data = await response.text();
         setPosts(JSON.parse(data)); 
-        console.log(data);
-        console.log(posts);
       } catch (error) {
           console.error('Error fetching posts:', error);
         }
@@ -53,13 +51,10 @@ const PostController = (props) => {
       <p style={{fontFamily: 'Font Awesome 5 Free'}} id='postControllerTitle'>{category}의 관련글</p>
       <table id='postList'>
         <tbody>
-          {getCurrentPosts().map((post) => {
-              console.log(post);
-          })}
           {getCurrentPosts().map((post) => (
             <tr key={post.post_id}>
               <td className='TdBorder postId'>{post.post_id}</td>
-              <td className='TdBorder postTitle'><Link to={`/viewer/${category}/${post.post_id}`} style={ {textDecoration: 'none'}} >{post.subject} </Link></td>
+              <td className='TdBorder postTitle'><Link to={`/viewer/${category}/${post.post_id}`} style={ {borderBottom: 'none'}} >{post.subject} </Link></td>
               <td className='TdBorder postDate'>{post.date}</td>
             </tr>
           ))}

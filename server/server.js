@@ -20,41 +20,6 @@ connectToPostgreSQL()
     console.error('Error connecting to PostgreSQL:', err);
   });
 
-
-// API 라우팅
-app.get('/api/db', async (req, res) => {
-  try {
-    const sql = 'SELECT * FROM test';
-    const rows = await queryPostgreSQL(sql);
-    res.send(rows);
-  } catch (err) {
-    console.error('Error querying PostgreSQL:', err);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-app.get('/api/delete', async (req, res) => {
-  try {
-    const sql = 'DELETE FROM test';
-    await queryPostgreSQL(sql);
-    res.send('모든 데이터가 삭제되었습니다.');
-  } catch (err) {
-    console.error('Error deleting from PostgreSQL:', err);
-    res.status(500).send('삭제가 실패했습니다.');
-  }
-});
-
-app.post('/api/insert', async (req, res) => {
-  try {
-    const sql = `INSERT INTO test (name) VALUES ('${req.body.post}')`;
-    await queryPostgreSQL(sql);
-    res.send('삽입이 완료되었습니다.');
-  } catch (err) {
-    console.error('Error inserting into PostgreSQL:', err);
-    res.status(500).send('삽입이 실패했습니다.');
-  }
-});
-
 app.get('/api/post/:category/:postid', async (req, res) => {
   try {
     const category = req.params.category;
@@ -142,6 +107,39 @@ app.post('/api/post/insert', async(req,res) => {
     res.status(500).send('저장에 실패했습니다.' + err);
   }
 })
+
+app.post('/api/post/deleteC1', async (req, res) => {
+  try {
+    const sql = `DELETE FROM post
+                   WHERE post_id = (
+                    
+                                    SELECT post_id
+                                      FROM category c
+                                      JOIN post p
+                                        ON p.category_id = c.ca_id
+                                     WHERE c.ca_nm = '${req.body.categoryNm}'
+                                  ORDER BY create_date
+                                     LIMIT 1  
+                   )`;
+    await queryPostgreSQL(sql);                
+    res.status(200).send('SUCCESS');
+  } catch (err) {
+    console.error('에러가 발생했습니다.: ', err);
+    res.status(500).send('삭제 실패');
+  }
+});
+
+app.post('/api/post/deleteC2', async (req, res) => {
+  try {
+    const sql = `DELETE FROM post
+                   WHERE post_id = '${req.body.postId}'`;
+    await queryPostgreSQL(sql);                
+    res.status(200).send('SUCCESS');
+  } catch (err) {
+    console.error('에러가 발생했습니다.: ', err);
+    res.status(500).send('삭제 실패');
+  }
+});
 
 app.post('/api/categoryList', async (req, res) => {
   try {
