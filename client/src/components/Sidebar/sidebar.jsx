@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link,useNavigate } from "react-router-dom";
+import { Link,useNavigate} from "react-router-dom";
 import cogWheel from "../../assets/images/cogWheel.png";
 
 //자식 li 요소 클릭 시 html 렌더링 이벤트
@@ -12,7 +12,7 @@ const OpenerComponent = ({ label, subitems, updateC}) => {
     const [isActive, setIsActive] = useState(false);
     const [caPostId, setCaPostId] = useState('');
     const navi = useNavigate();
-    
+    const [loc,setLoc]=useState('/');
     const toggleOpener = () => {
       setIsActive(!isActive);
     };
@@ -27,22 +27,25 @@ const OpenerComponent = ({ label, subitems, updateC}) => {
           }
       });
       const body = await response.json(); // JSON 형식으로 파싱
+      setLoc(`/viewer/${item}/`);
       setCaPostId(body);
       updateC(item);
-
-      navi(`/viewer/${item}/${caPostId.post_id}`);
 
       } catch (error) {
       console.error("Error fetching category list:", error);
       }
     };  
 
+    useEffect(()=>{
+      navi(loc+`${caPostId.post_id || ''}`);
+    },[caPostId])
+
     return (
       <li>
         <span className={`opener ${isActive ? 'active' : ''}`} onClick={toggleOpener}>{label}</span>
         <ul style={{ display: isActive ? 'block' : 'none' }}>
           {subitems.map((item, index) => (
-            <li key={index}><Link to={`/viewer/${item}/0`} onClick={()=>{updateC(item);}}>{item}</Link></li>
+            <li key={index} onClick={()=>categoryPostId(item)}><a>{item}</a></li>
           ))}
         </ul>
       </li>

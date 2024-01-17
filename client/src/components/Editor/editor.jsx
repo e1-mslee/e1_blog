@@ -152,7 +152,11 @@ const EditorComponent = (props) => {
         body: JSON.stringify(sendData),
       })
     }
+    if(props.sendFlag[1]==='viewer'){
     navi(`/viewer/${props.sendFlag[2]}/${props.sendFlag[3]}`);
+    }else{
+    navi(`/`);
+    }
   }
 
   const categoryChange = (e) => {
