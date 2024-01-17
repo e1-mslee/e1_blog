@@ -92,7 +92,8 @@ app.get('/api/getPosts', async(req, res) => {
                    WHERE category_id = (
                                         SELECT ca_id
                                           FROM category c
-                                         WHERE ca_nm = '${req.query.category}')`;
+                                         WHERE ca_nm = '${req.query.category}')
+                ORDER BY post_id`;
     const rows = await queryPostgreSQL(sql);
     res.send(rows);
   } catch (err) { 
@@ -185,6 +186,34 @@ app.post('/api/post/deleteC2', async (req, res) => {
                    WHERE post_id = '${req.body.postId}'`;
     await queryPostgreSQL(sql);                
     res.status(200).send('SUCCESS');
+  } catch (err) {
+    console.error('에러가 발생했습니다.: ', err);
+    res.status(500).send('삭제 실패');
+  }
+});
+
+app.post('/api/post/getPostId', async (req, res) => {
+  try {
+    const sql = `SELECT post_id
+                   FROM post
+                  WHERE category_id = '${req.body.category_id}'
+               ORDER BY create_date DESC 
+                  LIMIT 1`;
+    const rows = await queryPostgreSQL(sql);                
+    res.send(rows);
+  } catch (err) {
+    console.error('에러가 발생했습니다.: ', err);
+    res.status(500).send('삭제 실패');
+  }
+});
+
+app.post('/api/post/getCategoryNm', async (req, res) => {
+  try {
+    const sql = `SELECT ca_nm
+                   FROM category
+                  WHERE ca_id = '${req.body.category_id}'`;
+    const rows = await queryPostgreSQL(sql);                
+    res.send(rows);
   } catch (err) {
     console.error('에러가 발생했습니다.: ', err);
     res.status(500).send('삭제 실패');

@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
@@ -12,6 +12,7 @@ import Col from 'react-bootstrap/Col';
 
 const EditorComponent = (props) => {
   const [category, setCategory] = useState('');
+  const [postId, setPostId] = useState('');
   const [secCategory, setSecCategory] = useState('');
   const [title, setTitle] = useState("");
   const [modPost,setmodPost]=useState();
@@ -151,7 +152,6 @@ const EditorComponent = (props) => {
         body: JSON.stringify(sendData),
       })
     }
-
     navi(`/viewer/${props.sendFlag[2]}/${props.sendFlag[3]}`);
   }
 
