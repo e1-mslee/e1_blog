@@ -7,3 +7,6 @@ RUN npm install --silent
 COPY . .
 EXPOSE 5000
 CMD ["npm", "start"]
+
+
+# docker build -t mslee978/backend .
