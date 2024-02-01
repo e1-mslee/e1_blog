@@ -53,7 +53,6 @@ const PostController = (props) => {
         <tbody>
           {getCurrentPosts().map((post) => (
             <tr key={post.post_id}>
-              <td className='TdBorder postId'>{post.post_id}</td>
               <td className='TdBorder postTitle'><Link to={`/viewer/${category}/${post.post_id}`} style={ {borderBottom: 'none'}} >{post.subject} </Link></td>
               <td className='TdBorder postDate'>{post.date}</td>
             </tr>

@@ -117,16 +117,19 @@ app.post('/api/category/get', async(req, res) => {
 
 app.post('/api/post/insert', async(req,res) => {
   try{
-    const sql = `INSERT INTO post ( subject
+    const sql = `INSERT INTO post ( post_id
+                                  , subject
                                   , content
                                   , category_id
                                   , create_date
                                   , update_date )
-                            VALUES ( '${req.body.subject}'
-                                  ,  '${req.body.content}'
-                                  ,  '${req.body.category_id}'
+                            SELECT  COALESCE(MAX(post_id)+1,1)
+                                  , '${req.body.subject}'
+                                  , '${req.body.content}'
+                                  , '${req.body.category_id}'
                                   , now()
-                                  , now() )`;
+                                  , now()
+                              FROM post `;
 
     console.log(sql);
     await queryPostgreSQL(sql);
