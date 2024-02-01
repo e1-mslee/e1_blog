@@ -14,7 +14,7 @@ export default function ContentsViewer(props) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`/api/post/${category}/${postid}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_HOST}/api/post/${category}/${postid}`, {
                   method: 'GET',
                   headers: {
                   'Content-Type': 'application/json',

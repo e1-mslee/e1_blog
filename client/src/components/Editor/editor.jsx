@@ -37,7 +37,7 @@ const EditorComponent = (props) => {
       let param = {
         supi_id : supiId
       }
-      const response = await fetch("/api/category/get", {
+      const response = await fetch(`${process.env.REACT_APP_API_HOST}/api/category/get`, {
         method: 'POST',
         headers:{
           'Content-Type' : 'application/json',
@@ -55,7 +55,7 @@ const EditorComponent = (props) => {
 
   const getModData = async(ca_nm,p_id) => {
 
-    const modResponse = await fetch(`/api/getModPost/${ca_nm}/${p_id}`, {
+    const modResponse = await fetch(`${process.env.REACT_APP_API_HOST}/api/getModPost/${ca_nm}/${p_id}`, {
       method: 'POST',
       headers:{
         'Content-Type' : 'application/json',

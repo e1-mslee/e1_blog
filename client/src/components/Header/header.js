@@ -24,7 +24,7 @@ const MyHeader = (props) => {
       //초기 글일 경우
       if(num == 0){
         let data = { categoryNm: categoryNm };
-        await fetch('/api/post/deleteC1',{
+        await fetch(`${process.env.REACT_APP_API_HOST}/api/post/deleteC1`,{
           method: 'POST',
           headers: {
             'Content-Type' : 'application/json',
@@ -39,7 +39,7 @@ const MyHeader = (props) => {
           categoryNm: categoryNm,
           postId: postId
         };
-        await fetch('/api/post/deleteC2',{
+        await fetch(`${process.env.REACT_APP_API_HOST}/api/post/deleteC2`,{
           method: 'POST',
           headers: {
             'Content-Type' : 'application/json',

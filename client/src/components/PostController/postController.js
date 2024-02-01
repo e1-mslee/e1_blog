@@ -15,7 +15,7 @@ const PostController = (props) => {
   // 전체 글 목록을 가져오는 비동기 함수
   const fetchPosts = async () => {
     try {
-        const response = await fetch(`/api/getPosts?category=${category}`,{
+        const response = await fetch(`${process.env.REACT_APP_API_HOST}/api/getPosts?category=${category}`,{
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

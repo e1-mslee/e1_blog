@@ -20,7 +20,7 @@ const OpenerComponent = ({ label, subitems, updateC}) => {
     const categoryPostId = async (item) => {
       
       try {
-      const response = await fetch(`/api/categoryListPostId?category=${item}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_HOST}/api/categoryListPostId?category=${item}`, {
           method: 'POST',
           headers: {
           'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ const SidebarComponent = ({updateCategory}) => {
     // 사이드바 리스트 로딩 함수
     const categoryList = async () => {
         try {
-        const response = await fetch('/api/categoryList', {
+        const response = await fetch(`${process.env.REACT_APP_API_HOST}/api/categoryList`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',

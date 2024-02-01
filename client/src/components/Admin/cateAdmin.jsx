@@ -13,14 +13,14 @@ const CateAdmin = () => {
     const [cateList, setCateList] = useState([]);
 
     const getCodeData = async() => {
-        let res = await fetch("/api/supiCategoryList", {
+        let res = await fetch(`${process.env.REACT_APP_API_HOST}/api/supiCategoryList`, {
             method : "POST",
             headers: {
                 'Content-Type' : 'application/json',
             },
 
         })
-
+        console.log(process.env.REACT_APP_API_HOST);
         let data = await res.json();
         setSupiOptions(data);
 
@@ -28,7 +28,7 @@ const CateAdmin = () => {
     }
 
     const getCodeList = async() => {
-        let res = await fetch("/api/categoryDetailList", {
+        let res = await fetch(`${process.env.REACT_APP_API_HOST}/api/categoryDetailList`, {
             method: "POST",
             headers: {
                 'Content-Type' : 'application/json',
@@ -59,7 +59,7 @@ const CateAdmin = () => {
             supi_id : supiCate
         } 
 
-        await fetch("/api/categoryInsert", {
+        await fetch(`${process.env.REACT_APP_API_HOST}/api/categoryInsert`, {
             method: "POST",
             headers: {
                 'Content-Type' : 'application/json',
@@ -100,7 +100,7 @@ const CateAdmin = () => {
     }
 
     const getNodeCnt = async(cate) => {
-        let nodeCntData = await fetch("/api/nodeCnt", {
+        let nodeCntData = await fetch(`${process.env.REACT_APP_API_HOST}/api/nodeCnt`, {
             method: "POST",
             headers: {
                 "Content-Type" : "application/json"
@@ -114,7 +114,7 @@ const CateAdmin = () => {
     }
 
     const updateHandler = async(cate) => {
-        await fetch("/api/categoryUpdate", {
+        await fetch(`${process.env.REACT_APP_API_HOST}/api/categoryUpdate`, {
             method: "POST",
             headers: {
                 "Content-Type" : "application/json"
@@ -134,7 +134,7 @@ const CateAdmin = () => {
             return;
         }
 
-        let postCntData = await fetch("/api/postCnt", {
+        let postCntData = await fetch(`${process.env.REACT_APP_API_HOST}/api/postCnt`, {
             method: "POST",
             headers: {
                 "Content-Type" : "application/json"
@@ -149,7 +149,7 @@ const CateAdmin = () => {
             return;
         }
 
-        await fetch("/api/categoryDelete", {
+        await fetch(`${process.env.REACT_APP_API_HOST}/api/categoryDelete`, {
             method: "POST",
             headers: {
                 "Content-Type" : "application/json"
