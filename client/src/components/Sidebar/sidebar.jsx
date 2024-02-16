@@ -2,11 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link,useNavigate} from "react-router-dom";
 import cogWheel from "../../assets/images/cogWheel.png";
 
-//자식 li 요소 클릭 시 html 렌더링 이벤트
-const changePage = (item) => {
-    console.log(item);
-}
-
 //자식 li 요소 렌더링 함수
 const OpenerComponent = ({ label, subitems, updateC}) => {
     const [isActive, setIsActive] = useState(false);

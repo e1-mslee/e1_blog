@@ -46,7 +46,6 @@ const EditorComponent = (props) => {
       })
 
       const data = await response.json();
-      console.log(data)
       cateOptions = data;
       if(supiId === 1) setOptions(cateOptions);
       else setSecOptions(cateOptions);
@@ -136,7 +135,7 @@ const EditorComponent = (props) => {
     }
 
     if(props.sendFlag[1]===''){
-    await fetch("/api/post/insert", {
+    await fetch(`${process.env.REACT_APP_API_HOST}/api/post/insert`, {
       method: "POST",
       headers: {
         'Content-Type' : 'application/json',
@@ -144,7 +143,7 @@ const EditorComponent = (props) => {
       body: JSON.stringify(sendData),
     })
     }else if(props.sendFlag[1]==='viewer'){
-      await fetch(`/api/post/mod?postid=${props.sendFlag[3]}`, {
+      await fetch(`${process.env.REACT_APP_API_HOST}/api/post/mod?postid=${props.sendFlag[3]}`, {
         method: "POST",
         headers: {
           'Content-Type' : 'application/json',
@@ -197,7 +196,6 @@ const EditorComponent = (props) => {
       }).then((res) => {
         return res.json();
       }).then((json) => {
-        console.log(json);
         let url = json.data.link;
         cb(url);
       })

@@ -20,7 +20,7 @@ const CateAdmin = () => {
             },
 
         })
-        console.log(process.env.REACT_APP_API_HOST);
+        
         let data = await res.json();
         setSupiOptions(data);
 
