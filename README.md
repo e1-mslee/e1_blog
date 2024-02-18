@@ -8,13 +8,13 @@ E1정보기술 BS팀 정보 블로그 사이트입니다.
 ## 🕰️ 개발 기간
 * 24.01.10일 - 24.02.10일
 
-### ⚙️ 개발 환경
+## ⚙️ 개발 환경
 - `node v18.16.1`
 - `react v18.2.1`
 - **IDE** : Visual Studio Code
 - **Database** : postgresql DB
 
-#### 📌 시작하기
+## 📌 시작하기
 
 #### 1. 아래처럼 git을 clone하거나 zip으로 다운로드
 ```bash
@@ -42,7 +42,9 @@ $ npm install
 $ npm install --force
 ```
 
-#### 3. 프로젝트 실행
+#### 3. 상단의 폴더에서 프로젝트 실행
 ```bash
 $ npm run dev
 ```
+
+##### 이후 자세한 실행 내용은 React_Express 개발환경_메뉴얼_이민수.pptx 참조
